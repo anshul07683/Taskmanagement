@@ -5,6 +5,7 @@ import Client from './components/client/client'
 import Developer from './components/developer'
 import {Provider} from 'react-redux'
 import Clientheader from './components/client/clientheader'
+import Developerheader from './components/developer/developerheader'
 
 import store from './store/store'
 class App extends Component {
@@ -24,7 +25,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className="App">
-          <Developer/>
+          <Developerheader/>
         </div>
       </Provider>
     );

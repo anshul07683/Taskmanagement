@@ -11,24 +11,10 @@ const checkAuth = require('../middleware/check-auth');
 
 var Clientpost = require('../models/clientproject')
 
+const Developers = require("../models/developeruser")
+const Invite  = require('../models/invite')
 
 
-// router.get('/studentpost',(req,res,next)=>{
-//   FacultyPost.find()
-//     .select("username title  body _id ")
-//     .exec()
-//       .then(docs =>{
-//         console.log(docs);
-//         res.setHeader('Content-Type', 'text/plain');
-//         res.send(docs);
-//       })
-//       .catch(err =>{
-//         console.log(err);
-//         res.status(500).json({
-//           error:err
-//         })
-//       })
-// });
 
 router.post('/clientpost',(req,res,next)=>{
   console.log(JSON.stringify(req.data));
@@ -70,27 +56,47 @@ router.get('/clientpost',(req,res,next)=>{
       })
 });
 
-// router.post('/facultypost',(req,res,next)=>{
-//   console.log("from routes",JSON.stringify(req.body))
-//   console.log('post is callling from express')
 
-//   const post = new FacultyPost({
-//     _id: new mongoose.Types.ObjectId(),
-//     username:req.body.username,
-//     title:req.body.title,
-//     body:req.body.body,
+router.get('/developers',(req,res,next)=>{
+  Developers.find()
+        .exec()
+      .then(docs =>{
+        console.log(docs);
+        res.setHeader('Content-Type', 'text/plain');
+        res.send(docs);
+      })
+      .catch(err =>{
+        console.log(err);
+        res.status(500).json({
+          error:err
+        })
+      })
+});
 
-//   })
-//   post.save().then(result=>{
-//     console.log(result);
-//   })
-//   .catch(err => console.log(err));
 
-//   res.status(200).json({
-//     message: 'faculty post  request',
-//     createdPost: post
-//   });
-// });
+//invite developer--
+
+router.post('/invitedeveloper',(req,res,next)=>{
+  console.log("invitedeveloper from routes",JSON.stringify(req.body))
+  console.log('invite developer is callling from express')
+
+  const invite = new Invite({
+    _id: new mongoose.Types.ObjectId(),
+    developerId:req.body.developerId,
+    clientId:req.body.clientId,
+    projectId:req.body.projectId,
+
+  })
+  invite.save().then(result=>{
+    console.log(result);
+  })
+  .catch(err => console.log(err));
+
+  res.status(200).json({
+    message: 'successfully invite',
+    createdPost: invite
+  });
+});
 
 
 // router.get('/:postId',(req,res,next)=>{

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/user');
 const clientRoutes = require('./routes/client')
+const developerRoutes = require('./routes/developer')
 
 
 app.use(bodyParser.urlencoded({extended:true}));
@@ -22,6 +23,6 @@ app.use(function (req, res, next) {
 
 app.use('/user',userRoutes)
 app.use('/client',clientRoutes)
-
+//app.use('/developer',developerRoutes)
 
 module.exports= app;

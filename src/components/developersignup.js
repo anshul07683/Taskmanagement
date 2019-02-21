@@ -2,7 +2,7 @@ import React,{ Component } from "react";
 import {connect } from 'react-redux';
 import {add_developer} from '../actions/useractions.js'
 import {Provider} from 'react-redux'
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const divStyle = {
   margin:'85px',

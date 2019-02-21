@@ -1,6 +1,11 @@
 import {takeLatest,call,all,put} from 'redux-saga/effects';
 import {add_developer,add_client} from '../apis/user';
-import { add_client_project,show_client_project} from '../apis/client';
+import { add_client_project,show_client_project,show_developers,invite_developer} from '../apis/client';
+import {fetch_invites } from '../apis/developer'
+import { fetch_invite } from '../actions/developeraction';
+
+
+
 
 function* adddeveloper(action){
   console.log('faculty signup is callling from saga')
@@ -25,11 +30,33 @@ function* showprojectclient(){
   console.log('show post client calling from saga',projects)
 }
 
+function* showdeveloper(){
+  console.log('show  developer is calling from saga');
+  const developer = yield call(show_developers)
+  yield put({type:'SHOW_DEVELOPERS',value:developer})
+
+}
+
+function* invitedeveloper(action){
+  console.log('invite developer from saga',action.invitedata)
+  const invite = yield call(invite_developer,action.invitedata)
+}
+
+function* fetchinvite(action){
+  console.log('fetch invite calling from saga')
+  yield call(fetch_invites)
+
+}
+
 export default  function*  rootSaga(){
   yield all([
     yield takeLatest('ADD_DEVELOPER',adddeveloper),
     yield takeLatest('ADD_CLIENT',addclient),
     yield takeLatest('ADD_CLIENT_PROJECT',addclientproject),
-    yield takeLatest('SHOW_CLIENT_PROJECT',showprojectclient)
+    yield takeLatest('SHOW_CLIENT_PROJECT',showprojectclient),
+    yield takeLatest('SHOW_DEVELOPER',showdeveloper),
+    yield takeLatest('INVITE_DEVELOPER',invitedeveloper),
+    yield takeLatest('FETCH_INVITE',fetchinvite)
+
   ])
 }

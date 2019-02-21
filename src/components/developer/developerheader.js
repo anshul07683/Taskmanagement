@@ -1,12 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Addproject from './addproject';
-import Showclientprojects from './showclientprojects'
-import Showdeveloper from   './showdeveloper';
+import Allotedproject from './allotedproject'
+import Notification from   './notification';
 
 import "../Header.css";
 
-export default class Clientheader extends React.Component
+export default class Developerheader extends React.Component
 {
   constructor(props){
     super(props);
@@ -24,16 +23,13 @@ export default class Clientheader extends React.Component
           <div>
             <div class="header">
               <div class="header-right">
-                <Link to="/addproject">Add Project</Link>
-                <Link to="/showproject">Show Project </Link>
-                <Link to="/showdeveloper">show developer</Link>
+                <Link to="/allotedproject">show Alloted Project</Link>
+                <Link to="/invitation">Project Invitation </Link>
                 <a href="/"  onClick={this.logOut}>LogOut</a>
               </div>
             </div>
-
-
-            <Route path = "/showproject" component={Showclientprojects}/>
-            <Route path="/showdeveloper" component={Showdeveloper}/>
+            <Route  path="/allotedproject" component={Allotedproject}/>
+            <Route  path="/invitation" component={Notification}/>
           </div>
       </Router>
 

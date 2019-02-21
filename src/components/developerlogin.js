@@ -37,7 +37,8 @@ export default class Developerlogin extends Component{
 					let token=''
 					return(
 						console.log("successfully ..",res),
-						localStorage.setItem('developertoken',res.token),
+            localStorage.setItem('developertoken',res.token),
+            localStorage.setItem('userId',res.userId),
 						token=localStorage.getItem('developertoken'),
             console.log('local storege---',token),
             window.location.reload()

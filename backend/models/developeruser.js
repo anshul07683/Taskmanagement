@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 mongoose.set('useCreateIndex', true);
 const DeveloperSchema = mongoose.Schema({
   _id:mongoose.Schema.Types.ObjectId,
-  Name:String,
+  name:String,
   contact:Number,
   email:String,
   password:String

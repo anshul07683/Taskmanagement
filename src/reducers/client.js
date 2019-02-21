@@ -1,5 +1,6 @@
 const initialState={
-  projects:[]
+  projects:[],
+  developers:[]
 }
 
 const reducer = (state=initialState,action)=>{
@@ -13,6 +14,11 @@ const reducer = (state=initialState,action)=>{
       return{
         ...state,
         projects:[...state.projects,action.value]
+      }
+    case 'SHOW_DEVELOPERS':
+      return{
+        ...state,
+        developers:action.value
       }
 
     default :
