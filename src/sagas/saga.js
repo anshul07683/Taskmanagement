@@ -1,9 +1,7 @@
 import {takeLatest,call,all,put} from 'redux-saga/effects';
 import {add_developer,add_client} from '../apis/user';
 import { add_client_project,show_client_project,show_developers,invite_developer} from '../apis/client';
-import {fetch_invites } from '../apis/developer'
-import { fetch_invite } from '../actions/developeraction';
-
+import { fetch_invite} from '../apis/developer'
 
 
 
@@ -42,9 +40,10 @@ function* invitedeveloper(action){
   const invite = yield call(invite_developer,action.invitedata)
 }
 
-function* fetchinvite(action){
+function* fetchinvite(){
   console.log('fetch invite calling from saga')
-  yield call(fetch_invites)
+  const invitation=yield call(fetch_invite);
+  yield put({type:'SHOW_INVITATION',value:invitation})
 
 }
 

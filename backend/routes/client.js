@@ -9,11 +9,11 @@ const mongoose = require('mongoose');
 const checkAuth = require('../middleware/check-auth');
 
 
+
 var Clientpost = require('../models/clientproject')
 
 const Developers = require("../models/developeruser")
 const Invite  = require('../models/invite')
-
 
 
 router.post('/clientpost',(req,res,next)=>{

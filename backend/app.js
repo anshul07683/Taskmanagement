@@ -23,6 +23,6 @@ app.use(function (req, res, next) {
 
 app.use('/user',userRoutes)
 app.use('/client',clientRoutes)
-//app.use('/developer',developerRoutes)
+app.use('/developer',developerRoutes)
 
 module.exports= app;
