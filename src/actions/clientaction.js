@@ -15,10 +15,11 @@ export function show_developers()
   return{type:'SHOW_DEVELOPER'}
 }
 
-export function invite_developer(_id,clientId,projectId){
-  console.log('invite developer from action',_id,clientId,projectId)
+export function invite_developer(_id,developeremail,clientId,projectId){
+  console.log('invite developer from action',_id,developeremail,clientId,projectId)
   const invitedata={
     developerId:_id,
+    developeremail:developeremail,
     clientId:clientId,
     projectId:projectId
   }

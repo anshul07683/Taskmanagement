@@ -1,19 +1,13 @@
 
 var express = require('express');
-
 var router = express.Router();
-
 const mongoose = require('mongoose');
-
-
 const checkAuth = require('../middleware/check-auth');
-
-
-
 var Clientpost = require('../models/clientproject')
-
 const Developers = require("../models/developeruser")
 const Invite  = require('../models/invite')
+const nodemailer = require("nodemailer");
+const mailService = require('../services/mailservice') ;
 
 
 router.post('/clientpost',(req,res,next)=>{
@@ -76,9 +70,41 @@ router.get('/developers',(req,res,next)=>{
 
 //invite developer--
 
-router.post('/invitedeveloper',(req,res,next)=>{
+router.post('/invitedeveloper',async(req,res,next)=>{
+  let myObj={}
+  myObj.developeremail=req.body.developeremail
   console.log("invitedeveloper from routes",JSON.stringify(req.body))
-  console.log('invite developer is callling from express')
+
+  let data = await Clientpost.find({_id:req.body.projectId})
+  console.log("await data ",data)
+
+  myObj.project_title=data.project_title;
+  myObj.project_body= data.project_body;
+
+  console.log("myobj",myObj)
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'anshuljain07683@gmail.com',
+      pass: '9754447092'
+    }
+  });
+
+  var mailOptions = {
+    from: 'anshuljain07683@gmail.com',
+    to: req.body.developeremail,
+    subject: 'Project Invitation from Taskmanagement',
+    text:"you are invited for this Project"+req.body.projectId,
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
 
   const invite = new Invite({
     _id: new mongoose.Types.ObjectId(),
@@ -98,60 +124,7 @@ router.post('/invitedeveloper',(req,res,next)=>{
   });
 });
 
+function sendMail(data){
 
-// router.get('/:postId',(req,res,next)=>{
-//   const id = req.params.postId;
-//   Post.findById(id)
-//     .exec()
-//     .then(doc=>{
-//       console.log("from database",doc);
-//       if(doc){
-//         res.status(200).json({doc});
-//       }
-//       else{
-//           res.status(404).json({message:'no  id found'})
-//       }
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       res.status(500).json({error:err})
-//     });
-// });
-
-// router.patch('/:postId',checkAuth,(req,res,next)=>{
-//   const id = req.params.postId;
-//   const updateOps ={
-//     title:req.body.title,
-//     body:req.body.body
-//   }
-
-//   Post.update({ _id:id }, { $set: updateOps }).exec()
-//   .then(result =>{
-//     console.log(result);
-//     res.status(200).json(result);
-//   })
-//   .catch(err => {
-//     console.log(err);
-//     res.status("error from patch route",500).json({
-//       error:err
-//     });
-
-// });
-// });
-
-// router.delete('/:postId',checkAuth,(req,res,next)=>{
-//   console.log('delete is calling from express')
-//   const id = req.params.postId;
-//   Post.remove({_id:id})
-//     .exec()
-//     .then(result => {
-//       res.status(200).json(result);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       res.status(500).json({
-//         error:err
-//       });
-//     });
-// });
+}
 module.exports = router;

@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Addproject from './addproject';
 import Showclientprojects from './showclientprojects'
-import Showdeveloper from   './showdeveloper';
+import showdeveloper1 from   './showdeveloper1';
 
 import "../Header.css";
 
@@ -31,9 +31,9 @@ export default class Clientheader extends React.Component
               </div>
             </div>
 
-
+            <Route path = "/addproject" component={ Addproject}/>
             <Route path = "/showproject" component={Showclientprojects}/>
-            <Route path="/showdeveloper" component={Showdeveloper}/>
+            <Route path="/showdeveloper" component={showdeveloper1}/>
           </div>
       </Router>
 
