@@ -1,7 +1,9 @@
 import {takeLatest,call,all,put} from 'redux-saga/effects';
 import {add_developer,add_client} from '../apis/user';
 import { add_client_project,show_client_project,show_developers,invite_developer} from '../apis/client';
-import { fetch_invite} from '../apis/developer'
+import { fetch_invite,accept_invite,reject_invite} from '../apis/developer'
+
+
 
 
 
@@ -46,6 +48,15 @@ function* fetchinvite(){
   yield put({type:'SHOW_INVITATION',value:invitation})
 
 }
+function* acceptinvite(action){
+  console.log('accept invite calling from saga',action.data)
+  yield call(accept_invite,action.data)
+}
+
+function* rejectinvite(action){
+  console.log("reject invite ",action.data)
+  yield call(reject_invite, action.data)
+}
 
 export default  function*  rootSaga(){
   yield all([
@@ -55,7 +66,9 @@ export default  function*  rootSaga(){
     yield takeLatest('SHOW_CLIENT_PROJECT',showprojectclient),
     yield takeLatest('SHOW_DEVELOPER',showdeveloper),
     yield takeLatest('INVITE_DEVELOPER',invitedeveloper),
-    yield takeLatest('FETCH_INVITE',fetchinvite)
+    yield takeLatest('FETCH_INVITE',fetchinvite),
+    yield takeLatest('ACCEPT_INVITE',acceptinvite),
+    yield takeLatest('REJECT_INVITE',rejectinvite)
 
   ])
 }

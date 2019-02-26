@@ -7,7 +7,6 @@ var Clientpost = require('../models/clientproject')
 const Developers = require("../models/developeruser")
 const Invite  = require('../models/invite')
 const nodemailer = require("nodemailer");
-const mailService = require('../services/mailservice') ;
 
 
 router.post('/clientpost',(req,res,next)=>{
@@ -53,18 +52,18 @@ router.get('/clientpost',(req,res,next)=>{
 
 router.get('/developers',(req,res,next)=>{
   Developers.find()
-        .exec()
-      .then(docs =>{
-        console.log(docs);
-        res.setHeader('Content-Type', 'text/plain');
-        res.send(docs);
-      })
-      .catch(err =>{
-        console.log(err);
-        res.status(500).json({
-          error:err
-        })
-      })
+  .exec()
+  .then(docs =>{
+    console.log(docs);
+    res.setHeader('Content-Type', 'text/plain');
+    res.send(docs);
+  })
+  .catch(err =>{
+    console.log(err);
+    res.status(500).json({
+    error:err
+    })
+  })
 });
 
 
@@ -72,17 +71,13 @@ router.get('/developers',(req,res,next)=>{
 
 router.post('/invitedeveloper',async(req,res,next)=>{
   let myObj={}
-  myObj.developeremail=req.body.developeremail
   console.log("invitedeveloper from routes",JSON.stringify(req.body))
 
-  let data = await Clientpost.find({_id:req.body.projectId})
-  console.log("await data ",data)
-
-  myObj.project_title=data.project_title;
-  myObj.project_body= data.project_body;
+  let data = await Clientpost.find({_id:req.body.projectId},{project_title:1,project_body:1})
+  // Service.functionData(data, req.data)
+  myObj=data
 
   console.log("myobj",myObj)
-
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -95,7 +90,7 @@ router.post('/invitedeveloper',async(req,res,next)=>{
     from: 'anshuljain07683@gmail.com',
     to: req.body.developeremail,
     subject: 'Project Invitation from Taskmanagement',
-    text:"you are invited for this Project"+req.body.projectId,
+    html:'<h2>you are invited for this Project</h2><br>'+myObj
   };
 
   transporter.sendMail(mailOptions, function(error, info){
@@ -105,26 +100,12 @@ router.post('/invitedeveloper',async(req,res,next)=>{
       console.log('Email sent: ' + info.response);
     }
   });
-
-  const invite = new Invite({
-    _id: new mongoose.Types.ObjectId(),
-    developerId:req.body.developerId,
-    clientId:req.body.clientId,
-    projectId:req.body.projectId,
-
-  })
-  invite.save().then(result=>{
-    console.log(result);
-  })
+  Clientpost.findOneAndUpdate({_id:req.body.projectId},{$set:{developer_id:req.body.developerId}})
   .catch(err => console.log(err));
-
   res.status(200).json({
     message: 'successfully invite',
-    createdPost: invite
   });
 });
 
-function sendMail(data){
 
-}
 module.exports = router;

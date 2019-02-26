@@ -53,7 +53,7 @@ export default class Clientlogin extends Component{
 
   render(){
 	  return(
-	    <div class="containe" style={divStyle}>
+	    <div class="container" style={divStyle}>
 		    <h1>Client Login</h1>
 		    <form  class="form-horizontal">
 		      <div class="form-group">

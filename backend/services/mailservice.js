@@ -8,7 +8,7 @@ const Invite  = require('../models/invite')
 const nodemailer = require("nodemailer");
 
 
-exports.Mail= function(req,res){
+function mail(req,res){
 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
