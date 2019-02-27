@@ -19,9 +19,13 @@
   margin-top: 85px;
   margin-right: 0%;
   margin-left: 0%;
-  width: 50%;
+
   height: 100%;
   opacity: 0.85;
   scroll-behavior: smooth;
   background: rgb(241, 218, 218)
+  }
+  div {
+    word-wrap: break-word;
+
   }

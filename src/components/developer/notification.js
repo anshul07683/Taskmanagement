@@ -8,6 +8,8 @@ class Notification extends Component{
   constructor(){
     super();
     this.accept= this.accept.bind(this);
+    this.reject = this.reject.bind(this);
+
   }
 
   accept(id){
@@ -27,6 +29,7 @@ class Notification extends Component{
 componentDidMount(){
   this.props.fetchinvite()
 }
+
 render(){
   const user_id=localStorage.getItem('userId')
   console.log('Project invitations',this.props.invite)

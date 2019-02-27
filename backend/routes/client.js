@@ -75,8 +75,9 @@ router.post('/invitedeveloper',async(req,res,next)=>{
 
   let data = await Clientpost.find({_id:req.body.projectId},{project_title:1,project_body:1})
   // Service.functionData(data, req.data)
-  myObj=data
 
+  var projecttitle=data.map(project=>project.project_title)
+  var projectbody=data.map(project=>project.project_body)
   console.log("myobj",myObj)
   var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -90,7 +91,7 @@ router.post('/invitedeveloper',async(req,res,next)=>{
     from: 'anshuljain07683@gmail.com',
     to: req.body.developeremail,
     subject: 'Project Invitation from Taskmanagement',
-    html:'<h2>you are invited for this Project</h2><br>'+myObj
+    html:'<h2>you are invited for this Project</h2><br> <h3>Project title:'+projecttitle+'<h3>Project body :'+projectbody
   };
 
   transporter.sendMail(mailOptions, function(error, info){
@@ -107,5 +108,10 @@ router.post('/invitedeveloper',async(req,res,next)=>{
   });
 });
 
-
+router.post('/addcomment',async(req,res,next)=>{
+  console.log('add comment express',req.body)
+  await Clientpost.findOneAndUpdate({_id:req.body.id},{$push:{comments:req.body.comments}})
+  .catch(err=>console.log(err));
+  res.status(200)
+});
 module.exports = router;

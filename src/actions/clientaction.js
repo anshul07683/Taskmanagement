@@ -25,3 +25,7 @@ export function invite_developer(_id,developeremail,clientId,projectId){
   }
   return{type:'INVITE_DEVELOPER',invitedata}
 }
+export function add_comment(commentdata){
+  console.log('add comment ',commentdata)
+  return{type:'ADD_COMMENT',commentdata}
+}

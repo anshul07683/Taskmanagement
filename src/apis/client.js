@@ -43,3 +43,14 @@ export const invite_developer = async(invitedata )=>{
   // .then(res=>{console.log(res)})
   .catch(error=>alert(error))
 }
+
+export const add_comment = async(commentdata) =>{
+  console.log('add comment calling  calling from API',commentdata)
+  await fetch('http://localhost:3003/client/addcomment',{
+    method:'POST',
+    body:JSON.stringify(commentdata),
+    headers: {'Content-Type':'application/json'}
+  }).then(res=>res.json())
+  // .then(res=>{console.log(res)})
+  .catch(error=>alert("comment",error))
+}

@@ -1,7 +1,6 @@
 
 import React,{ Component } from "react";
 import {connect} from 'react-redux';
-import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {show_developers,invite_developer} from '../../actions/clientaction';
 const divStyle = {
@@ -17,17 +16,17 @@ class Showdeveloper extends Component{
 		const clientId= localStorage.getItem('userId')
 		const postitems = this.props.developers.map(developer =>
 			(<div  key={developer._id}>
-				<div>Name:{developer.name}</div>
-				<div>Email{developer.email}</div>
+				<div><b>Name</b></div>
+				<div>{developer.name}</div>
+				<div><b>Email</b></div>
+				<div>{developer.email}</div>
 				<button type="button" class="btn btn-sm btn-dark" onClick={()=>this.props.invite(developer._id,developer.email,clientId,projectId)}>invite</button><span>  </span>
 			</div>)
 		);
 		return(
 				<div style={divStyle}>
-					<center>
 						<h4>Developers</h4>
 						{postitems}
-					</center>
 				</div>
 		);
 	}

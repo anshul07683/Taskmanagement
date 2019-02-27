@@ -18,7 +18,7 @@ class Showdeveloper1 extends Component{
 	render(){
 		return(
 			<div style={divStyle} className="container">
-					<h3> Develpoers </h3>
+				<h3>All Developers </h3>
 				<table className="table float-lg-left">
 					<thead>
 						<tr className="text-left">
