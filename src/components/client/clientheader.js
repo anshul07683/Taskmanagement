@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Addproject from './addproject';
 import Showclientprojects from './showclientprojects'
 import showdeveloper1 from   './showdeveloper1';
+import Addtask from './addtask'
 
 import "../Header.css";
 
@@ -34,6 +35,7 @@ export default class Clientheader extends React.Component
             <Route path = "/addproject" component={ Addproject}/>
             <Route path = "/showproject" component={Showclientprojects}/>
             <Route path="/showdeveloper" component={showdeveloper1}/>
+            <Route path='/addtask' component={Addtask}/>
           </div>
       </Router>
 

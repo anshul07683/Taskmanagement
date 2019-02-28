@@ -1,42 +1,73 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Modal from 'react-responsive-modal';
+import React, { Component } from 'react';
+import { add_task } from '../../actions/clientaction';
+import {connect } from 'react-redux';
 
-export default class Demo extends React.Component {
-  state = {
-    open: false,
-  };
+class Demo extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      open: false,
+      title:'',
+      description:'',
+      startdate:'',
+      duedate:''
+    };
+    this.handleclick=this.handleclick.bind(this)
+  }
 
-  onOpenModal = () => {
-    this.setState({ open: true });
-  };
+  async handleclick(e){
+    console.log("handle click")
+    const userId=localStorage.getItem('userId')
+    const projectId=localStorage.getItem('projectId')
+    const taskdata = {
+      projectId:projectId,
+      title:this.state.title,
+      description:this.state.description,
+      startdate:this.state.startdate,
+      duedate:this.state.duedate,
+      assignby:userId
+    }
+  await this.props.addtask(taskdata)
+  }
 
-  onCloseModal = () => {
-    this.setState({ open: false });
-  };
-
-  render() {
-    const { open } = this.state;
-    return (
+  handlechange=(e)=>{
+    this.setState({[e.target.name]:e.target.value})
+  }
+  render(){
+    return(
       <div>
-        <button onClick={this.onOpenModal}>ADD TASK</button>
-        <Modal open={open} onClose={this.onCloseModal} center>
-          <h2>
-            {this.props.id}
-            <form action="/action_page.php">
-              <div class="form-group">
-                <label for="Task title">Email address:</label>
-                <input type="text" class="form-control" id="email"/>
-              </div>
-              <div class="form-group">
-                <label for="pwd">Content:</label>
-                <input type="textarea" class="form-control" id="pwd"/>
-              </div>
-              <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-          </h2>
-        </Modal>
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label className="small" for="title">Title</label>
+              <input type="text" class="form-control" name="title" placeholder="Task Title" onChange={this.handlechange}/>
+            </div>
+          </div>
+          <div class="form-row">
+            <label className="small" for="description">Description</label>
+            <input type="textarea" class="form-control" name="description" placeholder="Task Description" onChange={this.handlechange}/>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label  className="small"for="startdate">Start Date</label>
+              <input type="text" class="form-control" name="startdate" onChange={this.handlechange}/>
+            </div>
+            <div class="form-group col-md-6">
+              <label className="small" for="duedate">Due Date</label>
+              <input type="text" class="form-control" name="duedate" onChange={this.handlechange}/>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" onClick={this.handleclick}>ADD Task</button>
+        </form>
       </div>
     );
   }
 }
+
+const mapDispatchToProps = dispatch=>{
+  return{
+    addtask:(taskdata)=>dispatch(add_task(taskdata))
+  }
+}
+
+export default connect(null,mapDispatchToProps)(Demo);

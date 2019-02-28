@@ -54,3 +54,13 @@ export const add_comment = async(commentdata) =>{
   // .then(res=>{console.log(res)})
   .catch(error=>alert("comment",error))
 }
+export const add_task = async(taskdata) =>{
+  console.log('task data  calling from API',taskdata)
+  await fetch('http://localhost:3003/client/addtask',{
+    method:'POST',
+    body:JSON.stringify(taskdata),
+    headers: {'Content-Type':'application/json'}
+  }).then(res=>res.json())
+  // .then(res=>{console.log(res)})
+  .catch(error=>alert("comment",error))
+}

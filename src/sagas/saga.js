@@ -1,6 +1,6 @@
 import {takeLatest,call,all,put} from 'redux-saga/effects';
 import {add_developer,add_client} from '../apis/user';
-import { add_client_project,show_client_project,show_developers,invite_developer,add_comment} from '../apis/client';
+import { add_client_project,show_client_project,show_developers,invite_developer,add_comment,add_task} from '../apis/client';
 import { fetch_invite,accept_invite,reject_invite} from '../apis/developer'
 
 
@@ -65,6 +65,11 @@ function* addcomment(action){
   yield put({type:'ADD_COMMENT_REDUCER',value:comment})
 }
 
+function* addtask(action){
+  console.log("add task from saga",action.taskdata)
+  const task = yield call(add_task,action.taskdata)
+}
+
 export default  function*  rootSaga(){
   yield all([
     yield takeLatest('ADD_DEVELOPER',adddeveloper),
@@ -76,7 +81,8 @@ export default  function*  rootSaga(){
     yield takeLatest('FETCH_INVITE',fetchinvite),
     yield takeLatest('ACCEPT_INVITE',acceptinvite),
     yield takeLatest('REJECT_INVITE',rejectinvite),
-    yield takeLatest('ADD_COMMENT',addcomment)
+    yield takeLatest('ADD_COMMENT',addcomment),
+    yield takeLatest('ADD_TASK',addtask)
 
   ])
 }

@@ -1,8 +1,5 @@
 import React,{ Component } from "react";
 import {connect} from 'react-redux';
-import Modal from 'react-responsive-modal';
-import Demo from './Demo.js';
-
 import {show_project_client,add_comment} from '../../actions/clientaction';
 import './addproject.css';
 import Showdeveloper from "./showdeveloper";
@@ -15,8 +12,7 @@ class Showclientprojects extends Component{
 		this.state={
 			comment:'',
 			child:'',
-			popup:''
-
+			popup:'',
 		}
 		this.onchange=this.onchange.bind(this);
 	}
@@ -41,21 +37,17 @@ class Showclientprojects extends Component{
 		})
 	}
 
-	openPopup=()=>{
-		console.log("in open popup")
-		this.setState({ popup:<Demo/> })
+
+	addtask=e=>{
+		console.log(e.target.value)
+		localStorage.setItem('projectId',e.target.id)
+		localStorage.setItem('projectTitle',e.target.value)
+		this.props.history.push({
+			pathname: "/addtask",
+		});
 	}
 
-	comment(id){
-	const	commentdata={
-			id:id,
-			comments:this.state.comment
-		}
-		this.props.addcomment(commentdata)
-
-	}
 	render(){
-		const { open } = this.state;
 		const user_id=localStorage.getItem('userId')
 		console.log('Client Post-- ',this.props.posts)
 		return(
@@ -70,40 +62,19 @@ class Showclientprojects extends Component{
 										return(
 											<div className="panel-group border border-dark text-center" key={post._id}>
 												<div className="panel panel-default text-center">
-													<div>
-														<b>Project Title</b>
-													</div>
+													<div><b>Project Title</b></div>
 													<div>{post.project_title}</div>
 												</div>
 												<div className="panel panel-default text-center">
-													<div>
-														<b>Project Body</b>
-													</div>
-													<div>
-														<p>{post.project_body}</p>
-													</div>
+													<div><b>Project Body</b></div>
+													<div><p>{post.project_body}</p></div>
 												</div>
-												<div>
-													<div>
-														<b>Comments</b>
-													</div>
-													{	post.comments.map(comment=>{
-														return(
-															<div>
-																{comment}
-															</div>
-														)
-													})}
-													</div>
 													<div>
 														{post.assigned===false?null:
-														<div>
-															<Demo id={post._id}/>
-														<div>
-															<input type="text" name="comment" onChange={this.onchange}/>
-															<button type="button" onClick={this.comment.bind(this,post._id)}>Comment</button>
+															<div>
+																<button type="button" value={post.project_title} id={post._id} onClick={this.addtask}> Show Project</button>
 															</div>
-														</div>}
+														}
 													</div>
 													<div>
 														{post.developer_id?null:<button type="button" className="btn btn-secondary" onClick={this.demo.bind(this,post._id)}>Invite Developer</button>}<hr/>
@@ -127,7 +98,7 @@ const mapStateToProps=state =>({
 const mapDispatchToProps =  dispatch =>{
 	return{
 		fetchPost:() => dispatch(show_project_client()),
-		addcomment:(commentdata)=>dispatch(add_comment(commentdata))
+
 	};
 };
 

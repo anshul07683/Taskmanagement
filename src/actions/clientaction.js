@@ -29,3 +29,7 @@ export function add_comment(commentdata){
   console.log('add comment ',commentdata)
   return{type:'ADD_COMMENT',commentdata}
 }
+export function add_task(taskdata){
+  console.log("task data",taskdata);
+  return{type:'ADD_TASK',taskdata}
+}

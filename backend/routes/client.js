@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const checkAuth = require('../middleware/check-auth');
 var Clientpost = require('../models/clientproject')
 const Developers = require("../models/developeruser")
-const Invite  = require('../models/invite')
+const Task  = require('../models/task')
 const nodemailer = require("nodemailer");
 
 
@@ -108,10 +108,25 @@ router.post('/invitedeveloper',async(req,res,next)=>{
   });
 });
 
-router.post('/addcomment',async(req,res,next)=>{
+router.post('/addtask',async(req,res,next)=>{
   console.log('add comment express',req.body)
-  await Clientpost.findOneAndUpdate({_id:req.body.id},{$push:{comments:req.body.comments}})
-  .catch(err=>console.log(err));
-  res.status(200)
-});
+  const task = new Task({
+    _id:new mongoose.Types.ObjectId(),
+    projectId:req.body.projectId,
+    title:req.body.title,
+    description:req.body.description,
+    startdate:req.body.startdate,
+    duedate:req.body.duedate,
+    assignedby:req.body.assignedby
+
+  })
+  task.save().then(result=>{
+    console.log(JSON.stringify(result))
+  })
+
+.catch(err=> console.log(err));
+res.status(200).json({
+  message:"task added",
+})
+})
 module.exports = router;
